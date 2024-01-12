@@ -39,15 +39,15 @@
   justify-content: center;
   padding: 4px;
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: 15px;
+  top: 15px;
   transition: all .3s ease;
   width: 32px;
   z-index: 9999;
 }
 
 .cart-button:hover {
-  scale: 1.1;
+  scale: 1.5;
 }
 
 .cart-button ~ input:checked ~ .cart {

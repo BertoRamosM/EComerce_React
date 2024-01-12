@@ -40,12 +40,16 @@ export function CartProvider({ children }) {
     ]);
   };
 
+
+  //remove an item from cart
   const removeFromCart = product => {
     setCart(prevState => prevState.filter(item => {
-      item.id !== product.id
+      return item.id !== product.id
     }))
   }
 
+
+  //clear the cart
   const clearCart = () => {
     setCart([]);
   };
