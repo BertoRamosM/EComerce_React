@@ -1,13 +1,74 @@
+import { useReducer } from "react";
 import { createContext, useState } from "react";
 
 //create context
 export const CartContext = createContext();
 
+const initialState = [];
+const reducer = (state, action) => {
+  const { type: actionType, payload: actionPayLoad } = action;
+
+  switch (actionType) {
+    case "ADD_TO_CART": {
+      const { id } = actionPayLoad;
+      const productInCartIndex = state.findIndex((item) => item.id !== id);
+
+      if (productInCartIndex >= 0) {
+        const newState = structuredClone(state);
+        newCart[productInCartIndex].quantity += 1;
+        return newState;
+      }
+      return [
+        ...state,
+        {
+          ...actionPayLoad,
+          quantity: 1,
+        },
+      ];
+    }
+    case "REMOVE_FROM_CART": {
+      const { id } = actionPayLoad;
+      return state.filter((item) => item.id !== id);
+    }
+
+    case "CLEAR_CART": {
+      return initialState;
+    }
+  }
+
+  return state;
+};
+
 //create provider
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (product) => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+  
+  const addToCart = product => {
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: product
+    })
+  }
+
+  const removeFromCart = product => {
+    dispatch({
+      type: 'REMOVE_FROM_CART',
+      payload: product
+    })
+  }
+
+  const clearCart = product => {
+    dispatch({
+      type: 'CLEAR_CART',
+      payload: product
+    })
+  }
+
+  //check the function inside the reducer
+  ////////////////////////////////////////////////
+  /* const addToCart = (product) => {
     //simple way to add product to cart
     //creates a copy of the cart and the new product
     //setCart([...cart, product]) <--too simple
@@ -22,7 +83,7 @@ export function CartProvider({ children }) {
     if (productInCartIndex >= 0) {
       //here we create a copy of the array and assign in a new variable
       const newCart = structuredClone(cart);
-      //thet the item inside the cart by the index and add +1
+      //get the item inside the cart by the index and add +1
       newCart[productInCartIndex].quantity += 1;
       //set the cart
       return setCart(newCart);
@@ -39,25 +100,30 @@ export function CartProvider({ children }) {
       },
     ]);
   };
-
+ */
 
   //remove an item from cart
-  const removeFromCart = product => {
-    setCart(prevState => prevState.filter(item => {
-      return item.id !== product.id
-    }))
-  }
-
+  /* const removeFromCart = (product) => {
+    setCart((prevState) =>
+      prevState.filter((item) => {
+        return item.id !== product.id;
+      })
+    );
+  };
 
   //clear the cart
   const clearCart = () => {
     setCart([]);
-  };
+  }; */
+  ////////////////////////////////////////////
+  
+
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        //we pass the state because we use the reducer!!!!!
+        cart : state,
         addToCart,
         removeFromCart,
         clearCart,

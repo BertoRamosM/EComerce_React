@@ -9,7 +9,7 @@ function CartItem({ thumbnail, price, title, quantity, addToCart }) {
     <li>
       <img src={thumbnail} alt={title} />
       <div>
-        <strong>{title}</strong> - {price}
+        <strong>{title}</strong> - {price} $
       </div>
 
       <footer>
@@ -22,7 +22,7 @@ function CartItem({ thumbnail, price, title, quantity, addToCart }) {
 
 const Cart = () => {
   const cartCheckboxId = useId();
-  const { cart, clearCart } = useCart();
+  const { cart, clearCart, addToCart } = useCart();
   
   return (
     <>
