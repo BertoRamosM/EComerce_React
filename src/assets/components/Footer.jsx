@@ -1,16 +1,16 @@
+import { useCart } from '../../hooks/useCart';
 import './Footer.css'
 
-const Footer = ({filters}) => {
+
+const Footer = () => {
+  const { cart } = useCart()
   return (
     <footer className="footer">
-      <h4>Filters:</h4>
-      {
-        JSON.stringify(filters, null, 2)
-      }
-     {/*  <h4>Shopping Cart Test</h4>
-      <span href="">BertoRamosM</span>
-      <h5>Learning useContext and useReducer</h5>
-      <p>{filters}</p> */}
+      {/* <h4>Shopping Cart Test w/ React</h4>
+      <span>BertoRamosM</span>
+      <h5>Learning useContext and useReducer</h5> 
+      */}
+      {JSON.stringify(cart, null, 2) }
     </footer>
   );
 }
